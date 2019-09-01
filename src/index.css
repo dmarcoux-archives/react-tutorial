@@ -5,6 +5,11 @@ body {
 
 ol, ul {
   padding-left: 30px;
+
+}
+
+ol li.current button, ul li.current button {
+  font-weight: bold;
 }
 
 .board-row:after {
