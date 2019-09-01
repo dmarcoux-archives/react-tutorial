@@ -83,10 +83,9 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-      const desc = move ? 'Go to move #' + move : 'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button onClick={() => this.jumpTo(move)}>{describeMove(move, history)}</button>
         </li>
       );
     });
@@ -131,6 +130,26 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+function describeMove(move, history) {
+  if (!move) {
+    return 'Go to game start';
+  }
+
+  const previousStep = history[move - 1];
+  const currentStep = history[move];
+
+  const movePosition = currentStep.squares.findIndex((element, index) => {
+    return previousStep.squares[index] !== currentStep.squares[index];
+  });
+
+  // We add 1 to the calculations below to display a human-friendly position (so it starts at 1, not 0)
+  const boardSize = currentStep.squares.length; // This is hard-coded for now, it could be provided by the Game component to dynamically generate a board of a specific size
+  const columnPosition = movePosition % Math.sqrt(boardSize) + 1;
+  const rowPosition = Math.floor(movePosition / Math.sqrt(boardSize)) + 1;
+
+  return 'Go to move #' + move + ' (column: ' + columnPosition + ', row: ' + rowPosition + ')';
 }
 
 // ========================================
