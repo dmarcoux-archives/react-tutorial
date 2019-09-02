@@ -12,10 +12,13 @@ function Square(props) {
 
 class Board extends React.Component {
   renderSquare(row, column) {
+    // Needed since we use a one-dimensional array
+    const rowOffset = row * 3;
+
     return (
         <Square key={'square-' + row + '-' + column}
-                value={this.props.squares[row + column]}
-                onClick={() => this.props.onClick(row + column)} />
+                value={this.props.squares[rowOffset + column]}
+                onClick={() => this.props.onClick(rowOffset + column)} />
     );
   }
 
@@ -25,8 +28,7 @@ class Board extends React.Component {
     for (let row = 0; row < 3; row++) {
       const squares = [];
       for (let column = 0; column < 3; column++) {
-        const rowOffset = row * 3;
-        squares.push(this.renderSquare(rowOffset, column));
+        squares.push(this.renderSquare(row, column));
       }
       board.push(<div className="board-row">{squares}</div>);
     }
